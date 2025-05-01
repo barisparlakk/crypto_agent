@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI chatbot interface with dark theme">
+    <title>AI Chatbot</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .chat-box {
+            height: 400px; /* Set a fixed height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+            padding: 10px; /* Optional: Add padding for better spacing */
+            box-sizing: border-box; /* Ensure padding doesn't affect height */
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>AI Chatbot</h1>
+        </div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button id="submit-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userInput = $('#user-input').val();
+            $('#chat-box').append('<div class="user-message">' + userInput + '</div>');
+            $.post("/get_response", { user_input: userInput }, function(data) {
+                // Render multiline responses properly
+                const formattedResponse = data.response.replace(/\n/g, '<br>');
+                $('#chat-box').append('<div class="ai-response">' + formattedResponse + '</div>');
+                $('#user-input').val('');
+                $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputField = document.getElementById("user-input");
+            const submitButton = document.getElementById("submit-button");
+
+            // Submit the form when Enter key is pressed
+            inputField.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Prevent default form submission
+                    submitButton.click(); // Trigger the submit button click
+                }
+            });
+        });
+    </script>
+</body>
+</html>
