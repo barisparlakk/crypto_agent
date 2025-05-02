@@ -237,8 +237,8 @@ def handle_dynamic_response(user_input):
         return get_crypto_trading_volume(crypto_name)
     elif 'recommend a coin' in user_input.lower():
         return recommend_coin()
-    elif 'predict price of' in user_input.lower():
-        crypto_name = user_input.lower().split('predict price of')[-1].strip()
+    elif 'predict ' in user_input.lower():
+        crypto_name = user_input.lower().split('predict ')[-1].strip()
         return predict_crypto_price(crypto_name)
     elif 'top gainers and losers' in user_input.lower():
         return get_top_gainers_losers()
