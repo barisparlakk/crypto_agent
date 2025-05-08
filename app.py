@@ -18,7 +18,7 @@ nltk.download('punkt')
 
 #Define pairs of patterns and static responses
 static_pairs = [
-    (r'hi|hello|hey', ['Hello!', 'Hi there!', 'Hey!']),
+    (r'hi|hello|hey', ['Hello!', 'Hi there!', 'Hey!', 'Hey :)']),
     (r'how are you?', ['I am doing well, thank you!', 'I am fine, how about you?']),
     (r'what is your name?', ['I am an AI chatbot. What is your name?']),
     (r'my name is (.*)', ['Nice to meet you, %1!']),
@@ -224,7 +224,7 @@ def get_crypto_ohlc(crypto_name):
         return 'Failed to retrieve data from the API.'
 
 
-# Function to handle dynamic responses
+# Function to handle dynamic responses (rule-based)
 def handle_dynamic_response(user_input):
     if 'price of' in user_input.lower():
         crypto_name = user_input.lower().split('price of')[-1].strip()
